@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deploy
+  labels: 
+    app: httpd
+spec: 
+  replicas: 2
+  selector: 
+    matchLabels: 
+      app: httpd
+  strategy: 
+    type: RollingUpdate
+    rollingUpdate: 
+      maxSurge: 50%
+      maxUnavailable: 50%
+  template: 
+    metadata: 
+      labels: 
+        app: httpd
+    spec: 
+      containers: 
+        - name: my-container
+          image: httpd
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - mountPath: /path-of-volume-in-container
+              name: my-vol
+      volumes: 
+        -  name: my-vol
+           hostPath: /path-of-volume-in-node
+           type: Directory
