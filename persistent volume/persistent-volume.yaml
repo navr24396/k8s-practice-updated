@@ -1,0 +1,30 @@
+apiVersion: v1 
+kind: PersistentVolume
+metadata: 
+  name: persistent-volume
+spec: 
+  accessModes: 
+    - ReadWriteOnce
+  capacity: 
+    storage: 5Gi
+  persistentVolumeReclaimPolicy: Recycle 
+  hostPath: 
+    path: /
+    type: Directory
+    
+#ebs
+--- 
+
+apiVersion: v1 
+kind: PersistentVolume
+metadata: 
+  name: persistent-volume
+spec: 
+  accessModes: 
+    - ReadWriteOnce
+  capacity: 
+    storage: 5Gi
+  persistentVolumeReclaimPolicy: Recycle
+  awsElasticBlockStore: 
+    fsType: ext4
+    volumeID: <ebs vol id>        #also update tags to match cluster name

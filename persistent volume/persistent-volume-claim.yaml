@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc 
+spec:
+  accessModes: 
+    - ReadWriteOnce
+  resources: 
+    requests: 
+      storege: "2Gi"
+  storageClassName: managed-premium
+
+--- 
+
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: mongoexpress-dep
+  labels:
+    app: mongo-express
+spec: 
+  replicas: 1
+  selector:
+    matchLabels: 
+      app: mongo-express
+  strategy: 
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 50%
+  template:
+    metadata:
+      app: mongo-express
+    spec:
+      containers:
+        - name: mongo-express
+          image: mongo-express
+          ports: 
+            - containerPort: 8081
+          volumeMounts:
+            - name: pvc-volume
+              mountPath: "/var/www/html"
+      volumes:
+        - name: pvc-volume
+          awsElasticBlockStore: 
+            claimName: pvc
+          
