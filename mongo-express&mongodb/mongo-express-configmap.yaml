@@ -1,0 +1,7 @@
+apiVersion: v1 
+kind: ConfigMap
+metadata: 
+  name: momgo-express-configmap
+data:
+  database_url: mongodb-svc
+type: Opaque
