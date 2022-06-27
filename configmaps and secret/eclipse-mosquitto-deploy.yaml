@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: mosquitto-dep
+  labels:
+    app: mosquitto
+spec: 
+  replicas: 1
+  selector:
+    matchLabels: 
+      app: mosquitto
+  strategy: 
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 50%
+  template:
+    metadata:
+      app: mosquitto
+    spec:
+      containers:
+        - name: mosquitto
+          image: eclipse-mosquitto
+          ports: 
+            - containerPort: 1883
+          volumeMounts:
+            - name: mosquitto-config
+              mountPath: /mosquitto/config          #path should be same as counterpart
+            - name: mosquitto-config
+              mountPath: /mosquitto/secret
+              readOnly: true
+      volumes:
+        - name: mosquitto-config
+          ConfigMap: 
+            name: mosquitto-config-file
+        - name: mosquitto-secret
+          secret: 
+            secretName: mosquitto-secret-file

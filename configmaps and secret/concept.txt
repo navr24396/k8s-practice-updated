@@ -1,0 +1,5 @@
+#configmaps and secrets can be used to create individual key-value pairs which we can be used as environment variables
+#they can also be used to create configuration files which can be mounted as volumes to containers
+#the configuration file name which we define under data of configmap, should be same as the configuration file name which we can get by exec into container
+#a file with the name that is mentioned under data while creating configmap and secrets is created inside the container, which you can be 
+ confirmed by exec into container
