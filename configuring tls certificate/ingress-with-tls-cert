@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind : Ingress
+metadata:
+  name: sample-ingress
+spec: 
+  tls:
+    - hosts:
+      - ashok.com  
+      secretName: secret-tls
+  rules: 
+    - host: ashok.com
+      http: 
+        paths: 
+          - path: /images
+            backend: 
+              service: 
+                name: <service-name>
+                port: <service-port>
+          - path: /videos
+            backend: 
+              service: 
+                name: <service-name>
+                port: <service-port>
