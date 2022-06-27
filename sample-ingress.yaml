@@ -1,0 +1,43 @@
+apiVersion: networking.k8s.io/v1
+kind : Ingress
+metadata:
+  name: sample-ingress
+spec: 
+  rules: 
+    - host: ashok.com
+      http: 
+        paths: 
+          - path: /images
+            backend: 
+              service: 
+                name: <service-name>
+                port: <service-port>
+          - path: /videos
+            backend: 
+              service: 
+                name: <service-name>
+                port: <service-port>
+
+---                
+#for subdomains
+
+apiVersion: networking.k8s.io/v1
+kind : Ingress
+metadata:
+  name: sample-ingress
+spec: 
+  rules: 
+    - host: images.ashok.com
+      http: 
+        paths: 
+          - backend: 
+              service: 
+                name: <service-name>
+                port: <service-port>
+    - host: videos.ashok.com
+      http: 
+        paths: 
+          - backend: 
+              service: 
+                name: <service-name>
+                port: <service-port>
