@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: {{ .Values.appName }}
+spec: 
+  replicas: {{ .Values.appreplicas }}
+  selector:
+    matchLabels: 
+      app: {{ .Values.appName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appName }}
+    spec:
+      containers:
+        - name: {{ .Values.appName }}
+          image: "{{ .Values.appImage }}:{{ .Values.appVarsion }}"
+          ports: 
+            - containerPort: {{ .Values.containerPort }}
+          env:
+            - name: {{ .Values.containerenvvar.name }} 
+              value: {{ .Values.containerenvvar.value }}                    #use this if you there is only one env variable
+          {{-range .Values.containerenvvars}}
+          - name: {{ .name }}
+            value: {{ .value | quote }}                                     #quote is used since value is a string
+          {{-end}}                                                          #use this block if there are many environment variables
+
+        
