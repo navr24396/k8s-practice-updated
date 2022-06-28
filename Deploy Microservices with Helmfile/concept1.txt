@@ -1,0 +1,21 @@
+Deployment options
+1. install each release in chart individually by executing command                          #manual way
+   helm install -f <path to custom values.yaml> <release name> <chart name>  
+2. writing install and uninstall script i.e install.sh & uninstall.sh                       #inefficient way
+   chmod u+x install.sh    
+   chmod u+x uninstall.sh
+   ./install.sh         #to install
+   ./uninstall.sh       #to uninstall
+3. helmfile                                                                                 #efficient way
+  #after writing helmfile we have to install helmfile by 
+  apt install helmfile
+  helmfile sync                           #to update or sync cluster with desired state as mentioned in helmfile
+  helmfile lists                          #shows installed releases helmfile manages
+  helmfile destroy                        #to uninstall releases
+
+#to access application just google the load balancer ip address
+
+helm charts are hosted in git repository 
+1. with the application code
+2. seperate git repository for Hrlm charts         #recomended
+

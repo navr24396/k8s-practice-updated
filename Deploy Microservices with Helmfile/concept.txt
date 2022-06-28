@@ -1,0 +1,49 @@
+if microservices are similar we can create a shared helm chart
+if they are different we have to create individual mcharts for each microservices
+helm create <chart-name in this case microservice>                    #creates chart with the given name 
+ls                  #you will see folder named microservice and its contents created
+contents inside chart
+---------------------
+Chart.yaml = describes chart metadata
+charts = folder that contains dependency charts         #ignore in this case
+.helmignore = where hidden files and folders are defined, when building a package archive from this chart the mentioned files and foldes are ignored
+*note: helm charts can be build, archived and stored in helm repository
+templates = folder i.e core of helm charts, contains yaml files or yaml files should be created here, contains dep,svc,ingress,hpa,notes.txt etc.
+            we can delete all the files and create our own yaml files here
+values.yaml = file where actual values for template are set 
+------
+values can be passed in
+1. values.yaml file in chart
+2. user supplied file passed with -f <values file name>
+3. parameter passed with --set flag 
+
+#custom values file should be created outside chart 
+#if the variables specified in custom values.yaml file matches with default values.yaml file, they are overwritten
+ the required and the unspecified variables in custom values.yaml file will be taken from the default values.yaml file
+ usually variables with uncommon(independent of microservice) data are specified in custom values.yaml file
+
+# helm template -f <path to custom values.yaml> <chart name>                    #to validate yaml file(shows errors if any)
+# helm template -f emailservice-values.yaml microservice
+# helm lint -f <path to custom values.yaml> <chart name>                        #checks the correctness and validity of yaml file
+# helm install -f <path to custom values.yaml> <release name> <path to chart name>         #installs our chart
+# helm install -f /values/emailservice-values.yaml emailservice /charts/microservice
+helm ls             #lists charts
+
+#to deploy multiple microservices just create custom values.yaml file for each microservice and the rest is same
+ helm install -f /values/adservice-values.yaml adservice /charts/microservice
+ helm install -f /values/cartservice-values.yaml cartservice /charts/microservice
+
+etc,.
+
+#create seperate helm chart for third party applications like redis in this case 
+
+to do this crete charts folder where we can keep all charts and move micoservices chart to charts folder
+#now create a chart for redis using below command
+helm create redis
+#write or create evrything, now install chart
+cd charts/
+helm install -f /values/redis-values.yaml redis redis
+helm ls
+kubectl get pod
+
+# helm install --dry-run  -f <path to custom values.yaml> <release name> <chart name>       #preview of what will be installed
