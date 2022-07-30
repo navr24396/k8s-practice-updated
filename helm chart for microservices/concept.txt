@@ -1,5 +1,5 @@
 if microservices are similar we can create a shared helm chart
-if they are different we have to create individual mcharts for each microservices
+if they are different we have to create individual helm charts for each microservices
 helm create <chart-name in this case microservice>                    #creates chart with the given name 
 ls                  #you will see folder named microservice and its contents created
 contents inside chart
